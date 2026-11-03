@@ -1,0 +1,321 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+
+    background: #f4f7f9;
+
+    color: #1f2937;
+}
+
+
+/* HEADER */
+
+.header {
+
+    background: #ffffff;
+
+    padding: 25px 40px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.header h1 {
+
+    font-size: 28px;
+
+    margin-bottom: 5px;
+}
+
+.header p {
+
+    color: #6b7280;
+}
+
+
+/* CONEXIÓN */
+
+.conexion {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    font-weight: bold;
+}
+
+#indicadorConexion {
+
+    width: 12px;
+
+    height: 12px;
+
+    border-radius: 50%;
+
+    background: #f59e0b;
+}
+
+
+/* CONTENEDOR */
+
+.contenedor {
+
+    padding: 35px;
+
+    max-width: 1400px;
+
+    margin: auto;
+}
+
+
+/* SENSORES */
+
+.sensores {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(250px, 1fr));
+
+    gap: 20px;
+}
+
+
+/* CARD */
+
+.card {
+
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 18px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+
+    box-shadow:
+        0 5px 20px rgba(0,0,0,0.05);
+
+    transition: 0.2s;
+}
+
+.card:hover {
+
+    transform: translateY(-3px);
+}
+
+
+.icono {
+
+    font-size: 40px;
+}
+
+
+.card h3 {
+
+    font-size: 15px;
+
+    color: #6b7280;
+
+    margin-bottom: 8px;
+}
+
+
+.valor {
+
+    font-size: 30px;
+
+    font-weight: bold;
+}
+
+
+/* CONTROL */
+
+.control {
+
+    background: white;
+
+    margin-top: 30px;
+
+    padding: 30px;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 5px 20px rgba(0,0,0,0.05);
+}
+
+
+.control-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 25px;
+}
+
+
+.control-header h2 {
+
+    margin-bottom: 5px;
+}
+
+
+.control-header p {
+
+    color: #6b7280;
+}
+
+
+/* ESTADO BOMBA */
+
+.estado-bomba {
+
+    padding: 12px 20px;
+
+    border-radius: 30px;
+
+    font-weight: bold;
+}
+
+
+.estado-bomba.encendida {
+
+    background: #dcfce7;
+
+    color: #15803d;
+}
+
+
+.estado-bomba.apagada {
+
+    background: #fee2e2;
+
+    color: #b91c1c;
+}
+
+
+/* BOTONES */
+
+.botones {
+
+    display: flex;
+
+    gap: 15px;
+}
+
+
+.btn {
+
+    border: none;
+
+    padding: 15px 25px;
+
+    border-radius: 10px;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+
+.btn:hover {
+
+    transform: translateY(-2px);
+}
+
+
+.encender {
+
+    background: #16a34a;
+
+    color: white;
+}
+
+
+.apagar {
+
+    background: #dc2626;
+
+    color: white;
+}
+
+
+/* INFORMACIÓN */
+
+.informacion {
+
+    background: white;
+
+    margin-top: 25px;
+
+    padding: 25px;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 5px 20px rgba(0,0,0,0.05);
+}
+
+
+.informacion h2 {
+
+    margin-bottom: 10px;
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 700px) {
+
+    .header {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 15px;
+    }
+
+    .contenedor {
+
+        padding: 20px;
+    }
+
+    .botones {
+
+        flex-direction: column;
+    }
+
+    .control-header {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 15px;
+    }
+}

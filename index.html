@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Monitoreo del Vivero</title>
+
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+
+<body>
+
+    <header class="header">
+
+        <div>
+            <h1>🌱 Vivero Inteligente</h1>
+            <p>Monitoreo y control en tiempo real</p>
+        </div>
+
+        <div class="conexion">
+            <span id="indicadorConexion"></span>
+            <span id="estadoConexion">
+                Conectando...
+            </span>
+        </div>
+
+    </header>
+
+
+    <main class="contenedor">
+
+        <!-- SENSORES -->
+
+        <section class="sensores">
+
+            <div class="card">
+
+                <div class="icono">🌡️</div>
+
+                <div>
+                    <h3>Temperatura</h3>
+
+                    <div class="valor">
+                        <span id="temperatura">--</span>
+                        °C
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="icono">💧</div>
+
+                <div>
+                    <h3>Humedad ambiental</h3>
+
+                    <div class="valor">
+                        <span id="humedadAmbiente">--</span>
+                        %
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="icono">🌱</div>
+
+                <div>
+                    <h3>Humedad del suelo</h3>
+
+                    <div class="valor">
+                        <span id="humedadSuelo">--</span>
+                        %
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="icono">☀️</div>
+
+                <div>
+                    <h3>Luz solar</h3>
+
+                    <div class="valor">
+                        <span id="luz">--</span>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="icono">💨</div>
+
+                <div>
+                    <h3>Gas</h3>
+
+                    <div class="valor">
+                        <span id="gas">--</span>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="icono">🌧️</div>
+
+                <div>
+                    <h3>Lluvia</h3>
+
+                    <div class="valor">
+
+                        <span id="lluvia">
+                            --
+                        </span>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- CONTROL DE BOMBA -->
+
+        <section class="control">
+
+            <div class="control-header">
+
+                <div>
+                    <h2>Control de motobomba</h2>
+
+                    <p>
+                        Control manual mediante Firebase
+                    </p>
+                </div>
+
+                <div id="estadoBomba"
+                     class="estado-bomba apagada">
+
+                    APAGADA
+
+                </div>
+
+            </div>
+
+
+            <div class="botones">
+
+                <button
+                    id="btnEncender"
+                    class="btn encender">
+
+                    💧 Encender bomba
+
+                </button>
+
+
+                <button
+                    id="btnApagar"
+                    class="btn apagar">
+
+                    ⛔ Apagar bomba
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- INFORMACIÓN -->
+
+        <section class="informacion">
+
+            <h2>Estado del sistema</h2>
+
+            <p>
+                Última actualización:
+                <strong id="ultimaActualizacion">
+                    --
+                </strong>
+            </p>
+
+        </section>
+
+    </main>
+
+
+    <!-- Firebase -->
+
+    <script type="module"
+            src="js/app.js">
+    </script>
+
+</body>
+
+</html>
