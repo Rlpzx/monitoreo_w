@@ -319,3 +319,53 @@ body {
         gap: 15px;
     }
 }
+/* MODO AUTOMÁTICO */
+
+.modo-control {
+    margin-top: 25px;
+}
+
+.modo-contenido {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.modo-contenido h3 {
+    margin-bottom: 8px;
+}
+
+.modo-contenido p {
+    color: #6b7280;
+}
+
+.activar-auto {
+    background: #2563eb;
+    color: white;
+}
+
+.activar-auto.desactivar {
+    background: #64748b;
+}
+
+/* BOTONES MANUALES BLOQUEADOS */
+
+.btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+    filter: grayscale(0.5);
+}
+
+@media (max-width: 700px) {
+    .modo-contenido {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .modo-contenido button {
+        width: 100%;
+    }
+}

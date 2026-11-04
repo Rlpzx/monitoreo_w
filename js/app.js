@@ -1,3 +1,4 @@
+
 import {
     initializeApp
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -15,70 +16,87 @@ import {
 // =====================================================
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAVL4BgkP6PoTcsXRylTL57YiAnvNQRF20",
-  authDomain: "monitoreo-327e3.firebaseapp.com",
-  projectId: "monitoreo-327e3",
-  storageBucket: "monitoreo-327e3.firebasestorage.app",
-  messagingSenderId: "553290100761",
-  appId: "1:553290100761:web:4c367975bfe0aa8090fa88",
-  measurementId: "G-DY3DXZJ4QD"
+    apiKey: "AIzaSyAVL4BgkP6PoTcsXRylTL57YiAnvNQRF20",
+    authDomain: "monitoreo-327e3.firebaseapp.com",
+    databaseURL: "https://monitoreo-327e3-default-rtdb.firebaseio.com",
+    projectId: "monitoreo-327e3",
+    storageBucket: "monitoreo-327e3.firebasestorage.app",
+    messagingSenderId: "553290100761",
+    appId: "1:553290100761:web:4c367975bfe0aa8090fa88",
+    measurementId: "G-DY3DXZJ4QD"
 };
+
 
 // =====================================================
 // INICIALIZAR FIREBASE
 // =====================================================
 
 const app = initializeApp(firebaseConfig);
-
 const db = getDatabase(app);
+
+let modoAutomatico = false;
 
 
 // =====================================================
-// REFERENCIA A LA BASE DE DATOS
+// REFERENCIAS FIREBASE
 // =====================================================
 
 const datosRef = ref(db);
+const bombaRef = ref(db, "moto_bombs");
+const modoAutoRef = ref(db, "modo_auto");
+const conexionRef = ref(db, ".info/connected");
 
 
 // =====================================================
-// INDICADOR DE CONEXIÓN
+// ELEMENTOS HTML
 // =====================================================
 
-const conexionRef =
-    ref(db, ".info/connected");
+const indicadorConexion =
+    document.getElementById("indicadorConexion");
 
+const estadoConexion =
+    document.getElementById("estadoConexion");
+
+const estadoBomba =
+    document.getElementById("estadoBomba");
+
+const estadoModo =
+    document.getElementById("estadoModo");
+
+const btnModoAuto =
+    document.getElementById("btnModoAuto");
+
+const descripcionModo =
+    document.getElementById("descripcionModo");
+
+const btnEncender =
+    document.getElementById("btnEncender");
+
+const btnApagar =
+    document.getElementById("btnApagar");
+
+
+// =====================================================
+// VERIFICAR CONEXIÓN CON FIREBASE
+// =====================================================
 
 onValue(conexionRef, (snapshot) => {
 
-    const conectado =
-        snapshot.val() === true;
+    const conectado = snapshot.val() === true;
 
-    const indicador =
-        document.getElementById(
-            "indicadorConexion"
-        );
+    if (indicadorConexion && estadoConexion) {
 
-    const estado =
-        document.getElementById(
-            "estadoConexion"
-        );
+        if (conectado) {
 
+            indicadorConexion.style.background = "#16a34a";
+            estadoConexion.textContent = "Conectado";
 
-    if (conectado) {
+        } else {
 
-        indicador.style.background =
-            "#16a34a";
+            indicadorConexion.style.background = "#dc2626";
+            estadoConexion.textContent = "Desconectado";
 
-        estado.textContent =
-            "Conectado";
-
-    } else {
-
-        indicador.style.background =
-            "#dc2626";
-
-        estado.textContent =
-            "Desconectado";
+        }
 
     }
 
@@ -86,7 +104,7 @@ onValue(conexionRef, (snapshot) => {
 
 
 // =====================================================
-// LEER TODOS LOS DATOS DE FIREBASE
+// LEER DATOS DE FIREBASE EN TIEMPO REAL
 // =====================================================
 
 onValue(datosRef, (snapshot) => {
@@ -95,134 +113,100 @@ onValue(datosRef, (snapshot) => {
 
     console.log("Datos Firebase:", datos);
 
-
     if (!datos) {
-
-        console.log(
-            "No existen datos en Firebase"
-        );
-
+        console.log("No existen datos en Firebase");
         return;
     }
 
 
-    // =================================================
+    // ================================================
     // TEMPERATURA
-    // =================================================
+    // ================================================
 
-    const temperatura =
-        datos.temperatura;
-
-    document.getElementById(
-        "temperatura"
-    ).textContent =
-        temperatura ?? "--";
+    document.getElementById("temperatura").textContent =
+        datos.temperatura ?? "--";
 
 
-    // =================================================
-    // HUMEDAD AMBIENTE
-    // =================================================
+    // ================================================
+    // HUMEDAD AMBIENTAL
+    // ================================================
 
-    const humedadAmbiente =
-        datos.humedad_ambiente;
-
-    document.getElementById(
-        "humedadAmbiente"
-    ).textContent =
-        humedadAmbiente ?? "--";
+    document.getElementById("humedadAmbiente").textContent =
+        datos.humedad_ambiente ?? "--";
 
 
-    // =================================================
+    // ================================================
     // HUMEDAD DEL SUELO
-    // =================================================
+    // ================================================
 
-    const humedadSuelo =
-        datos.humedad_suelo;
-
-    document.getElementById(
-        "humedadSuelo"
-    ).textContent =
-        humedadSuelo ?? "--";
+    document.getElementById("humedadSuelo").textContent =
+        datos.humedad_suelo ?? "--";
 
 
-    // =================================================
+    // ================================================
     // GAS
-    // =================================================
+    // ================================================
 
-    const gas =
-        datos.gas;
-
-    document.getElementById(
-        "gas"
-    ).textContent =
-        gas ?? "--";
+    document.getElementById("gas").textContent =
+        datos.gas ?? "--";
 
 
-    // =================================================
+    // ================================================
     // LUZ
-    // =================================================
+    // ================================================
 
-    const luz =
-        datos.luz;
-
-    document.getElementById(
-        "luz"
-    ).textContent =
-        luz ?? "--";
+    document.getElementById("luz").textContent =
+        datos.luz ?? "--";
 
 
-    // =================================================
+    // ================================================
     // LLUVIA
-    // =================================================
+    // ================================================
 
-    const lluvia =
-        datos.lluvia;
+    const lluvia = datos.lluvia;
 
     const elementoLluvia =
-        document.getElementById(
-            "lluvia"
-        );
-
+        document.getElementById("lluvia");
 
     if (lluvia === 1) {
 
-        elementoLluvia.textContent =
-            "Detectada";
+        elementoLluvia.textContent = "Detectada";
 
     } else if (lluvia === 0) {
 
-        elementoLluvia.textContent =
-            "No detectada";
+        elementoLluvia.textContent = "No detectada";
 
     } else {
 
-        elementoLluvia.textContent =
-            lluvia ?? "--";
+        elementoLluvia.textContent = lluvia ?? "--";
+
     }
 
 
-    // =================================================
-    // MOTOBOMBA
-    // =================================================
+    // ================================================
+    // MODO AUTOMÁTICO
+    // ================================================
 
-    actualizarEstadoBomba(
-        datos.moto_bombs
-    );
+    modoAutomatico = datos.modo_auto === true;
+
+    actualizarModo();
 
 
-    // =================================================
+    // ================================================
+    // ESTADO DE LA MOTOBOMBA
+    // ================================================
+
+    actualizarEstadoBomba(datos.moto_bombs);
+
+
+    // ================================================
     // ÚLTIMA ACTUALIZACIÓN
-    // =================================================
+    // ================================================
 
-    const ultima =
-        datos.ultima_a;
-
+    const ultima = datos.ultima_a;
 
     const elementoUltima =
-        document.getElementById(
-            "ultimaActualizacion"
-        );
-
+        document.getElementById("ultimaActualizacion");
 
     if (
         ultima !== undefined &&
@@ -230,19 +214,14 @@ onValue(datosRef, (snapshot) => {
         ultima !== 0
     ) {
 
-        const fecha =
-            new Date(ultima);
-
+        const fecha = new Date(ultima);
 
         elementoUltima.textContent =
-            fecha.toLocaleString(
-                "es-CO"
-            );
+            fecha.toLocaleString("es-CO");
 
     } else {
 
-        elementoUltima.textContent =
-            "Sin actualización";
+        elementoUltima.textContent = "Sin actualización";
 
     }
 
@@ -250,32 +229,22 @@ onValue(datosRef, (snapshot) => {
 
 
 // =====================================================
-// ACTUALIZAR ESTADO DE LA BOMBA
+// ACTUALIZAR ESTADO DE LA MOTOBOMBA
 // =====================================================
 
 function actualizarEstadoBomba(estado) {
 
-    const elemento =
-        document.getElementById(
-            "estadoBomba"
-        );
-
+    if (!estadoBomba) return;
 
     if (estado === true) {
 
-        elemento.textContent =
-            "ENCENDIDA";
-
-        elemento.className =
-            "estado-bomba encendida";
+        estadoBomba.textContent = "ENCENDIDA";
+        estadoBomba.className = "estado-bomba encendida";
 
     } else {
 
-        elemento.textContent =
-            "APAGADA";
-
-        elemento.className =
-            "estado-bomba apagada";
+        estadoBomba.textContent = "APAGADA";
+        estadoBomba.className = "estado-bomba apagada";
 
     }
 
@@ -283,76 +252,167 @@ function actualizarEstadoBomba(estado) {
 
 
 // =====================================================
-// ENCENDER MOTOBOMBA
+// ACTUALIZAR INTERFAZ DEL MODO DE FUNCIONAMIENTO
 // =====================================================
 
-document.getElementById(
-    "btnEncender"
-).addEventListener(
-    "click",
-    async () => {
+function actualizarModo() {
 
-        try {
+    if (
+        !estadoModo ||
+        !btnModoAuto ||
+        !descripcionModo ||
+        !btnEncender ||
+        !btnApagar
+    ) {
+        console.error("Faltan elementos HTML del modo automático");
+        return;
+    }
 
-            await set(
-                ref(db, "moto_bombs"),
-                true
-            );
 
-            console.log(
-                "Motobomba ENCENDIDA"
-            );
+    if (modoAutomatico) {
 
-        } catch (error) {
+        // MODO AUTOMÁTICO ACTIVADO
 
-            console.error(
-                "Error:",
-                error
-            );
+        estadoModo.textContent = "MODO AUTOMÁTICO";
 
-            alert(
-                "No se pudo encender la motobomba"
-            );
+        estadoModo.className =
+            "estado-bomba encendida";
 
-        }
+        btnModoAuto.textContent =
+            "Desactivar modo automático";
+
+        btnModoAuto.classList.add("desactivar");
+
+        descripcionModo.textContent =
+            "El ESP32 controla automáticamente el riego según los sensores.";
+
+        // Bloquear control manual
+
+        btnEncender.disabled = true;
+        btnApagar.disabled = true;
+
+
+    } else {
+
+        // MODO MANUAL ACTIVADO
+
+        estadoModo.textContent = "MODO MANUAL";
+
+        estadoModo.className =
+            "estado-bomba apagada";
+
+        btnModoAuto.textContent =
+            "Activar modo automático";
+
+        btnModoAuto.classList.remove("desactivar");
+
+        descripcionModo.textContent =
+            "Puedes controlar manualmente el encendido y apagado de la motobomba.";
+
+        // Habilitar control manual
+
+        btnEncender.disabled = false;
+        btnApagar.disabled = false;
 
     }
-);
+
+}
 
 
 // =====================================================
-// APAGAR MOTOBOMBA
+// ENCENDER MOTOBOMBA MANUALMENTE
 // =====================================================
 
-document.getElementById(
-    "btnApagar"
-).addEventListener(
-    "click",
-    async () => {
+btnEncender.addEventListener("click", async () => {
 
-        try {
+    if (modoAutomatico) {
 
-            await set(
-                ref(db, "moto_bombs"),
-                false
-            );
+        alert(
+            "El modo automático está activado. Desactívalo para controlar la motobomba."
+        );
 
-            console.log(
-                "Motobomba APAGADA"
-            );
+        return;
+    }
 
-        } catch (error) {
+    try {
 
-            console.error(
-                "Error:",
-                error
-            );
+        await set(bombaRef, true);
 
-            alert(
-                "No se pudo apagar la motobomba"
-            );
+        console.log("Motobomba ENCENDIDA");
 
-        }
+    } catch (error) {
+
+        console.error("Error:", error);
+
+        alert("No se pudo encender la motobomba");
 
     }
-);
+
+});
+
+
+// =====================================================
+// APAGAR MOTOBOMBA MANUALMENTE
+// =====================================================
+
+btnApagar.addEventListener("click", async () => {
+
+    if (modoAutomatico) {
+
+        alert(
+            "El modo automático está activado. Desactívalo para controlar la motobomba."
+        );
+
+        return;
+    }
+
+    try {
+
+        await set(bombaRef, false);
+
+        console.log("Motobomba APAGADA");
+
+    } catch (error) {
+
+        console.error("Error:", error);
+
+        alert("No se pudo apagar la motobomba");
+
+    }
+
+});
+
+
+// =====================================================
+// ACTIVAR / DESACTIVAR MODO AUTOMÁTICO
+// =====================================================
+
+btnModoAuto.addEventListener("click", async () => {
+
+    const nuevoModo = !modoAutomatico;
+
+    try {
+
+        btnModoAuto.disabled = true;
+
+        await set(modoAutoRef, nuevoModo);
+
+        console.log(
+            nuevoModo
+                ? "Modo automático activado"
+                : "Modo manual activado"
+        );
+
+    } catch (error) {
+
+        console.error("Error al cambiar el modo:", error);
+
+        alert("No se pudo cambiar el modo de funcionamiento");
+
+    } finally {
+
+        btnModoAuto.disabled = false;
+
+    }
+
+});
